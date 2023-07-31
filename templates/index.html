@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chatbot</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Chatbot</h1>
+	
+    <div id="chatbox">
+		<p>Hello, welcome to the Chatbot. Please choose one of the 3 options</p>
+	</div>
+	
+    <p>Choose an option:</p>
+    <button onclick="sendMessage('1')">Make a complaint</button>
+    <button onclick="sendMessage('2')">Find out about the status of a current order</button>
+    <button onclick="sendMessage('3')">Ask about a specific product</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.js"></script>
+    <script type="text/javascript">
+        const socket = io.connect("http://" + document.domain + ":" + location.port);
+
+        function appendMessage(message) {
+            const chatbox = document.getElementById("chatbox");
+            const messageElement = document.createElement("p");
+            messageElement.innerHTML = message;
+            chatbox.appendChild(messageElement);
+        }
+
+        function sendMessage(choice) {
+            socket.emit("user_choice", choice);
+        }
+		
+		function disableButtons() {
+			document.getElementsByTagName("button")[0].disabled = true;
+			document.getElementsByTagName("button")[1].disabled = true;
+			document.getElementsByTagName("button")[2].disabled = true;
+		}
+
+        socket.on("bot_response", function (data) {
+            appendMessage(data.message);
+        });
+		
+		socket.on("close_connection", function () {
+            disableButtons()
+            socket.disconnect();
+        });
+    </script>
+</body>
+</html>

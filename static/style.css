@@ -1,0 +1,23 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    margin-bottom: 10px;
+}
+
+#chatbox {
+	max-width: 750px;
+	margin: 10px;
+	padding: 10px;
+	border-style: solid;
+	border-radius: 5px;
+	border-color: black
+}
+
+#chatbox p {
+  margin: 5px;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: lightgray;
+}
